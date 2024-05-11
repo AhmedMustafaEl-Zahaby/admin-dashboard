@@ -1,22 +1,23 @@
-import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import {
-  ErrorComponent,
-  ThemedLayoutV2,
-  ThemedSiderV2,
-  useNotificationProvider,
-} from "@refinedev/antd";
+import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
 import { dataProvider, liveProvider, authProvider } from "./providers";
-import { Home, ForgotPassword, Login, Register } from "./pages";
+import {
+  Home,
+  ForgotPassword,
+  Login,
+  Register,
+  CompanyList,
+  Create,
+} from "./pages";
 import { resources } from "./config/resources";
 import routerBindings, {
   CatchAllNavigate,
   DocumentTitleHandler,
-  NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import { App as AntdApp } from "antd";
@@ -61,6 +62,10 @@ function App() {
                   }
                 >
                   <Route index element={<Home />} />
+                  <Route path="/companies">
+                    <Route index element={<CompanyList />} />
+                    <Route path="new" element={<Create />} />
+                  </Route>
                 </Route>
               </Routes>
               <RefineKbar />
