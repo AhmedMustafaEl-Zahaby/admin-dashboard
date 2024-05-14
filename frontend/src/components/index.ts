@@ -7,6 +7,7 @@ import ProjectCardSkeleton from "./skeleton/project-card";
 import LatestActivitiesSkeleton from "./skeleton/latest-activities";
 import DashboardTotalCountCard from "./home/total-count-cards";
 import DashboardLatestActivites from "./home/latest-activites";
+import { ContactStatusTag } from "./tags/contact-status-tag";
 export {
   UpcommingEvents,
   DealsChart,
@@ -17,4 +18,5 @@ export {
   LatestActivitiesSkeleton,
   DashboardTotalCountCard,
   DashboardLatestActivites,
+  ContactStatusTag,
 };
