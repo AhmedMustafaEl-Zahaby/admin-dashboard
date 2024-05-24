@@ -21,81 +21,52 @@ import { Text } from "@/components/text";
 import Avatar from "@/components/custom-avatar";
 import { ContactStatusTag } from "@/components/tags/contact-status-tag";
 
+type TableQuery = GetFieldsFromList<CompanyContactsTableQuery>;
+
 export const CompanyContactsTable = () => {
-  // get params from the url
   const params = useParams();
 
-  /**
-   * Refine offers a TanStack Table adapter with @refinedev/react-table that allows us to use the TanStack Table library with Refine.
-   * All features such as sorting, filtering, and pagination come out of the box
-   * Under the hood it uses useList hook to fetch the data.
-   * https://refine.dev/docs/packages/tanstack-table/use-table/#installation
-   */
-  const { tableProps } = useTable<GetFieldsFromList<CompanyContactsTableQuery>>(
-    {
-      // specify the resource for which the table is to be used
-      resource: "contacts",
-      syncWithLocation: false,
-      // specify initial sorters
-      sorters: {
-        /**
-         * initial sets the initial value of sorters.
-         * it's not permanent
-         * it will be cleared when the user changes the sorting
-         * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-table/#sortersinitial
-         */
-        initial: [
-          {
-            field: "createdAt",
-            order: "desc",
-          },
-        ],
-      },
-      // specify initial filters
-      filters: {
-        /**
-         * similar to initial in sorters
-         * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-table/#filtersinitial
-         */
-        initial: [
-          {
-            field: "jobTitle",
-            value: "",
-            operator: "contains",
-          },
-          {
-            field: "name",
-            value: "",
-            operator: "contains",
-          },
-          {
-            field: "status",
-            value: undefined,
-            operator: "in",
-          },
-        ],
-        /**
-         * permanent filters are the filters that are always applied
-         * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-table/#filterspermanent
-         */
-        permanent: [
-          {
-            field: "company.id",
-            operator: "eq",
-            value: params?.id as string, // Add type assertion to treat params?.id as string
-          },
-        ],
-      },
-      /**
-       * used to provide any additional information to the data provider.
-       * https://refine.dev/docs/data/hooks/use-form/#meta-
-       */
-      meta: {
-        // gqlQuery is used to specify the GraphQL query that should be used to fetch the data.
-        gqlQuery: COMPANY_CONTACTS_TABLE_QUERY,
-      },
-    }
-  );
+  const { tableProps } = useTable<TableQuery>({
+    resource: "contacts",
+    syncWithLocation: false,
+    sorters: {
+      initial: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+    },
+    filters: {
+      initial: [
+        {
+          field: "jobTitle",
+          value: "",
+          operator: "contains",
+        },
+        {
+          field: "name",
+          value: "",
+          operator: "contains",
+        },
+        {
+          field: "status",
+          value: undefined,
+          operator: "in",
+        },
+      ],
+      permanent: [
+        {
+          field: "company.id",
+          operator: "eq",
+          value: params?.id as string,
+        },
+      ],
+    },
+    meta: {
+      gqlQuery: COMPANY_CONTACTS_TABLE_QUERY,
+    },
+  });
 
   return (
     <Card
@@ -131,7 +102,6 @@ export const CompanyContactsTable = () => {
       >
         <Table.Column<Contact>
           title="Name"
-          dataIndex="name"
           render={(_, record) => (
             <Space>
               <Avatar name={record.name} src={record.avatarUrl} />
@@ -163,7 +133,7 @@ export const CompanyContactsTable = () => {
         />
         <Table.Column<Contact>
           title="Stage"
-          dataIndex="status"
+          // render the status tag for each contact
           render={(_, record) => <ContactStatusTag status={record.status} />}
           // allow filtering by selecting multiple status options
           filterDropdown={(props) => (
@@ -178,7 +148,6 @@ export const CompanyContactsTable = () => {
           )}
         />
         <Table.Column<Contact>
-          dataIndex="id"
           width={112}
           render={(_, record) => (
             <Space>

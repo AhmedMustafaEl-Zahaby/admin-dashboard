@@ -97,7 +97,7 @@ export const CompanyList = ({ children }: React.PropsWithChildren) => {
                 </FilterDropdown>
               );
             }}
-            render={(value, record) => {
+            render={(value, record: GetFieldsFromList<CompaniesListQuery>) => {
               return (
                 <Space>
                   <Avatar
@@ -113,7 +113,7 @@ export const CompanyList = ({ children }: React.PropsWithChildren) => {
           <Table.Column
             dataIndex="totalRevenue"
             title="Open deals amount"
-            render={(value, company) => {
+            render={(value, company: GetFieldsFromList<CompaniesListQuery>) => {
               return (
                 <Text
                   style={{
