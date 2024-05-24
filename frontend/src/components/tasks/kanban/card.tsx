@@ -23,7 +23,6 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import React, { useMemo } from "react";
-import { text } from "stream/consumers";
 type Props = {
   id: string;
   title: string;
@@ -99,12 +98,18 @@ const ProjectCard = ({
       <Card
         size="small"
         title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
-        onClick={() => edit()}
+        onClick={() => edit("tasks", id, "replace")}
         extra={
           <Dropdown
             trigger={["click"]}
             menu={{
               items: dropdownItems,
+              onPointerDown: (e) => {
+                e.stopPropagation();
+              },
+              onClick: (e) => {
+                e.domEvent.stopPropagation();
+              },
             }}
             placement="bottom"
             arrow={{ pointAtCenter: true }}
