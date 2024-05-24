@@ -105,13 +105,7 @@ export const CompanyList = ({ children }: React.PropsWithChildren) => {
                     name={record.name}
                     src={record.avatarUrl}
                   />
-                  <Text
-                    style={{
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {record.name}
-                  </Text>
+                  <Text style={{ whiteSpace: "nowrap" }}>{record.name}</Text>
                 </Space>
               );
             }}

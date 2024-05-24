@@ -18,8 +18,8 @@ import { COMPANY_CONTACTS_TABLE_QUERY } from "@/graphql/queries";
 
 import { CompanyContactsTableQuery } from "@/graphql/types";
 import { Text } from "@/components/text";
-import CustomAvatar from "@/components/custom-avatar";
-import { ContactStatusTag } from "@/components";
+import Avatar from "@/components/custom-avatar";
+import { ContactStatusTag } from "@/components/tags/contact-status-tag";
 
 export const CompanyContactsTable = () => {
   // get params from the url
@@ -82,7 +82,7 @@ export const CompanyContactsTable = () => {
           {
             field: "company.id",
             operator: "eq",
-            value: params?.id as string,
+            value: params?.id as string, // Add type assertion to treat params?.id as string
           },
         ],
       },
@@ -99,15 +99,11 @@ export const CompanyContactsTable = () => {
 
   return (
     <Card
-      styles={{
-        headStyle: {
-          borderBottom: "1px solid #D9D9D9",
-          marginBottom: "1px",
-        },
-        bodyStyle: {
-          padding: 0,
-        },
+      headStyle={{
+        borderBottom: "1px solid #D9D9D9",
+        marginBottom: "1px",
       }}
+      bodyStyle={{ padding: 0 }}
       title={
         <Space size="middle">
           <TeamOutlined />
@@ -138,7 +134,7 @@ export const CompanyContactsTable = () => {
           dataIndex="name"
           render={(_, record) => (
             <Space>
-              <CustomAvatar name={record.name} src={record.avatarUrl} />
+              <Avatar name={record.name} src={record.avatarUrl} />
               <Text
                 style={{
                   whiteSpace: "nowrap",
@@ -148,9 +144,7 @@ export const CompanyContactsTable = () => {
               </Text>
             </Space>
           )}
-          // specify the icon that should be used for filtering
           filterIcon={<SearchOutlined />}
-          // render the filter dropdown
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
               <Input placeholder="Search Name" />
@@ -170,7 +164,6 @@ export const CompanyContactsTable = () => {
         <Table.Column<Contact>
           title="Stage"
           dataIndex="status"
-          // render the status tag for each contact
           render={(_, record) => <ContactStatusTag status={record.status} />}
           // allow filtering by selecting multiple status options
           filterDropdown={(props) => (
